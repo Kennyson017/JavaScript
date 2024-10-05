@@ -1,3 +1,5 @@
+const main = () => {
+    
 // Mudar Titulo
 document.querySelector('h1').innerText = `Hello World`;
 
@@ -19,3 +21,6 @@ paragraphs.forEach(paragraph => {
 document.querySelector('button a').innerText = 'Novo Texto do Botão'
 
 document.querySelector('button').classList = 'botao'
+}
+
+setTimeout(main, 3000)
