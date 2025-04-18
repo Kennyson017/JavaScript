@@ -1,0 +1,52 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: beige;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+#temporizador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    flex-wrap: wrap;
+}
+
+.box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    width: 100px;
+    height: 100px;
+    background-image: linear-gradient(135deg, #ffea31, #fcac00);
+    border-radius: 1em;
+    box-shadow: 0 5px 10px 0 hsla(0, 0%, 0%, 0.25);
+    z-index: 1;
+}
+
+.box div{
+    font-size: 2em;
+}
+
+h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: black;
+}
