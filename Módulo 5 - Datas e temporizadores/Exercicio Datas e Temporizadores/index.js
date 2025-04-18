@@ -20,7 +20,7 @@ function timeToDate(futureDate) {
 }
 
 const loadTemp = () => {
-    const futureDate = new Date('2024-12-30T12:23:59').getTime()
+    const futureDate = new Date('2025-12-30T12:23:59').getTime()
     const time = timeToDate(futureDate)
     const boxes = document.getElementsByClassName('box')
 
