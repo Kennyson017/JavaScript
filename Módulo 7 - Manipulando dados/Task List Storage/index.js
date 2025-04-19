@@ -1,0 +1,144 @@
+const input = document.getElementById('input-text');
+const button = document.querySelector('#add');
+const mensagemErro = document.getElementById('error');
+const ul = document.querySelector('ul');
+
+const list = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+function deleteItem() {
+    const deleteButtons = document.querySelectorAll('.delete-button');
+
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const li = button.closest('li');
+            const tarefa = li.childNodes[1].nodeValue.trim(); // Corrigido aqui
+            const index = list.indexOf(tarefa);
+            if (index > -1) {
+                list.splice(index, 1);
+            }
+            li.remove();
+            localStorage.setItem('tarefas', JSON.stringify(list));
+
+            mensagemErro.innerText = 'Tarefa excluida com sucesso!';
+            mensagemErro.style.cssText = `
+            color: red;
+            background-color: rgba(255, 4, 4, 0.16);`
+            setTimeout(() => {
+                mensagemErro.innerText = '';
+                mensagemErro.style.cssText = `
+                background-color: none;`
+            }, 3000);
+        });
+    });
+}
+
+button.addEventListener('click', () => {
+    const tarefa = input.value.trim();
+    if (tarefa === "") {
+        mensagemErro.innerText = 'Digite a tarefa a ser adicionada';
+        mensagemErro.style.cssText = `
+        color: red;
+        background-color: rgba(255, 0, 0, 0.158);
+    `
+        setTimeout(() => {
+            mensagemErro.innerText = '';
+            mensagemErro.style.cssText = `
+            background-color: none;`
+        }, 3000);
+    } else if (tarefa && !list.includes(tarefa)) {
+        
+        list.push(tarefa)
+        localStorage.setItem('tarefas', JSON.stringify(list));
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList = 'checkbox';
+
+        const deleteBtn = document.createElement('span');
+        deleteBtn.classList = 'material-symbols-outlined delete-button';
+        deleteBtn.textContent = 'delete';
+        deleteBtn.style.cursor = 'pointer';
+        deleteBtn.style.color = 'black';
+        deleteBtn.style.marginLeft = 'auto';
+        deleteBtn.style.float = 'right';
+
+        const li = document.createElement('li');
+        li.appendChild(checkbox);
+        li.appendChild(document.createTextNode(tarefa));
+        li.classList = 'tarefa';
+        li.appendChild(deleteBtn);
+        ul.appendChild(li);
+        input.value = ''
+
+        mensagemErro.innerText = 'Tarefa adicionada com sucesso';
+        mensagemErro.style.cssText = `
+        color: green;
+        background-color: rgba(0, 255, 64, 0.158);`
+        setTimeout(() => {
+            mensagemErro.innerText = '';
+            mensagemErro.style.cssText = `
+            background-color: none;`
+        }, 3000);
+    } else if (list.includes(tarefa)) {
+        mensagemErro.innerText = 'Essa tarefa já existe';
+        mensagemErro.style.cssText = `
+        color: green;
+        background-color: rgba(0, 255, 64, 0.158);
+    `
+        setTimeout(() => {
+            mensagemErro.innerText = '';
+            mensagemErro.style.cssText = `
+            background-color: none;`
+        }, 3000);
+    } else {
+        mensagemErro.innerText = "";
+    }
+
+    const checkboxes = document.querySelectorAll('.checkbox')
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', (event) => {
+            const li = event.target.parentElement; // Pega o elemento 'li' pai do checkbox
+            if (event.target.checked) {
+                li.style.cssText = `
+                background-color: rgb(209, 209, 209);
+                text-decoration: line-through;
+                color: rgb(136, 136, 136);
+                `;
+            } else {
+                li.style.textDecoration = 'none';
+                li.style.color = 'initial';
+                li.style.backgroundColor = 'rgb(77, 228, 255)';
+            }
+        });
+    }); 
+
+    deleteItem()
+});
+
+addEventListener('load', () => {
+    const tarefasSalvas = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+    tarefasSalvas.forEach((tarefa) => {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList = 'checkbox';
+
+        const deleteBtn = document.createElement('span');
+        deleteBtn.classList = 'material-symbols-outlined delete-button';
+        deleteBtn.textContent = 'delete';
+        deleteBtn.style.cursor = 'pointer';
+        deleteBtn.style.color = 'black';
+        deleteBtn.style.marginLeft = 'auto';
+        deleteBtn.style.float = 'right';
+
+        const li = document.createElement('li');
+        li.appendChild(checkbox);
+        li.appendChild(document.createTextNode(tarefa));
+        li.classList = 'tarefa';
+        li.appendChild(deleteBtn);
+        ul.appendChild(li);
+    });
+    deleteItem();
+});
+
+
